@@ -29,6 +29,11 @@ jobs:
           dotnet build GhostClip.csproj -c Release --no-restore -warnaserror
           if ($LASTEXITCODE -ne 0) { throw 'Build failed' }
 
+      - name: Verify branded Windows executable icon
+        shell: pwsh
+        run: |
+          ./scripts/Test-EmbeddedIcon.ps1
+
       - name: Guard the screenshot-only release scope
         shell: pwsh
         run: |

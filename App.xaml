@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:GhostClip"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <!-- A small vector ghost for native title bars. No image file required. -->
+        <!-- The WPF source of GhostClip's ghost artwork. Regenerate the
+             executable icon using scripts/Generate-Icon.ps1 when edited. -->
         <DrawingImage x:Key="GhostClipWindowIcon">
             <DrawingImage.Drawing>
                 <DrawingGroup>

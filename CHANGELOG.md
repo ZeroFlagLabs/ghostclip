@@ -3,6 +3,20 @@
 All notable user-facing changes to GhostClip are recorded here. This project
 uses semantic versions for published releases.
 
+## [1.0.1] - 22 November 2026
+
+### Changed
+
+- Embedded a Windows-native application icon into GhostClip.exe using the
+  existing ghost vector artwork, with ICO resolutions from 16×16 to 256×256.
+  File Explorer, desktop shortcuts and application identity now use the same
+  ghost as the Settings title bar.
+- Added a repeatable `scripts/Generate-Icon.ps1` icon generator, which reads
+  the `GhostClipWindowIcon` DrawingImage directly from `App.xaml`.
+
+The Print Screen capture, clipboard lifetime, Settings layout and privacy
+behaviour are unchanged.
+
 ## [1.0.0] - 22 November 2026
 
 Initial public Windows screenshot-only release.

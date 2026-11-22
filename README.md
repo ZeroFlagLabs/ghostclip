@@ -6,7 +6,7 @@ GhostClip is a small floating Windows widget for capturing a selected screen
 region and pasting it elsewhere, without GhostClip saving a screenshot file.
 It focuses on one task rather than becoming a general clipboard manager.
 
-**Latest release: v1.0.0.** The Windows x64 application is distributed as
+**Latest release: v1.0.1.** The Windows x64 application is distributed as
 a portable, currently unsigned executable. Please see the
 [privacy limitations](#privacy-model-and-limits): Windows Clipboard History,
 cloud clipboard and third-party clipboard managers are not fully controlled
@@ -26,6 +26,9 @@ or independently certified by GhostClip.
 - **Widget scale** slider in Appearance: 70%–150% in 5% steps (default
   100%). Changes the floating widget and its clickable area, not Settings or
   the screenshot region selector.
+- Matching ghost icon embedded in the executable for File Explorer, shortcuts
+  and Windows application identity; generated from the same WPF vector artwork
+  used in GhostClip's Settings window.
 - Optional **Launch with Windows** without stealing foreground focus.
 - Four Settings tabs and a draggable custom title bar with GhostClip's ghost
   icon. The bottom **Close** button dismisses Settings.
@@ -95,7 +98,7 @@ dotnet build -c Release --no-restore
 Create a repeatable portable ZIP from a **clean, committed source revision**:
 
 ```powershell
-powershell -NoProfile -File .\scripts\Publish-Release.ps1 -ReleaseLabel v1.0.0
+powershell -NoProfile -File .\scripts\Publish-Release.ps1 -ReleaseLabel v1.0.1
 ```
 
 Output is written to `dist/`, with a SHA-256 checksum. Packaging never
@@ -105,7 +108,7 @@ a GitHub release.
 
 ## Project documentation
 
-- [Release notes](docs/RELEASE_NOTES_v1.0.0.md) and [changelog](CHANGELOG.md)
+- [Release notes](docs/RELEASE_NOTES_v1.0.1.md) and [changelog](CHANGELOG.md)
 - [Release verification checklist](docs/RELEASE_V1_CHECKLIST.md)
 - [Release and packaging procedure](docs/RELEASING.md)
 - [Developer guide](CONTRIBUTING.md) and [security reporting](SECURITY.md)

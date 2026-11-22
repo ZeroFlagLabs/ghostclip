@@ -1,6 +1,6 @@
 # GhostClip release and verification
 
-The public `main` branch is the approved **screenshot-only v1.0** source. It
+The public `main` branch contains the **screenshot-only v1.x** source. It
 intentionally excludes all experimental Ctrl+C/text-capture implementations.
 The release is published under the MIT Licence, copyright 2026 ZeroFlagLabs.
 
@@ -13,7 +13,7 @@ From a clean, committed checkout:
 ```powershell
 dotnet restore
 dotnet build -c Release --no-restore -warnaserror
-powershell -NoProfile -File .\scripts\Publish-Release.ps1 -ReleaseLabel v1.0.0
+powershell -NoProfile -File .\scripts\Publish-Release.ps1 -ReleaseLabel v1.0.1
 ```
 
 The packaging script checks out the current committed revision in a temporary
@@ -21,8 +21,8 @@ detached Git worktree, publishes a self-contained single-file win-x64
 `GhostClip.exe`, copies the README, changelog, release notes and MIT licence,
 and generates:
 
-- `dist/GhostClip-v1.0.0-win-x64.zip`
-- `dist/GhostClip-v1.0.0-win-x64.zip.sha256`
+- `dist/GhostClip-v1.0.1-win-x64.zip`
+- `dist/GhostClip-v1.0.1-win-x64.zip.sha256`
 
 It verifies the executable's SHA-256 after extraction, then cleans up the
 temporary worktree. It never overwrites the user's installed or Windows-startup
@@ -46,7 +46,9 @@ clipboard's behaviour in every Windows installation. The current release is
 1. Make source and documentation changes on a branch; complete local and
    Windows testing.
 2. Update version in `GhostClip.csproj`, `CHANGELOG.md`, release notes
-   and user-facing documentation.
+   and user-facing documentation. If the vector ghost changes, regenerate
+   `Assets/GhostClip.ico` using `scripts/Generate-Icon.ps1` on Windows.
+   Update the release-notes filename in the packaging script as appropriate.
 3. Confirm the Git working tree is clean, no sensitive files are tracked,
    no experimental text-copy code was introduced unintentionally and the
    build passes on Windows.

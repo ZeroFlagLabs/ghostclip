@@ -1,6 +1,6 @@
 param(
     [ValidatePattern('^[A-Za-z0-9][A-Za-z0-9._-]*$')]
-    [string]$ReleaseLabel = 'v1.0.0-rc6',
+    [string]$ReleaseLabel = 'v1.0.1',
     [string]$OutputDirectory = 'dist'
 )
 
@@ -82,7 +82,7 @@ try {
     foreach ($entry in @(
         @{ Source = 'README.md'; Target = 'README.md' },
         @{ Source = 'CHANGELOG.md'; Target = 'CHANGELOG.md' },
-        @{ Source = 'docs\RELEASE_NOTES_v1.0.0.md'; Target = 'RELEASE_NOTES.md' }
+        @{ Source = 'docs\RELEASE_NOTES_v1.0.1.md'; Target = 'RELEASE_NOTES.md' }
     )) {
         $from = Join-Path $worktree $entry.Source
         if (!(Test-Path -LiteralPath $from)) {

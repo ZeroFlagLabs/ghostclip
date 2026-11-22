@@ -17,10 +17,21 @@ dotnet restore
 dotnet build -c Release --no-restore
 ```
 
+If you update the ghost in `App.xaml`, regenerate and verify the matching
+native EXE icon on Windows:
+
+```powershell
+powershell -NoProfile -STA -File .\scripts\Generate-Icon.ps1
+powershell -NoProfile -File .\scripts\Test-EmbeddedIcon.ps1
+```
+
+Rebuild GhostClip before running the second command. The icon verification
+also runs in GitHub Actions.
+
 For a clean, committed-source Windows x64 package:
 
 ```powershell
-powershell -NoProfile -File .\scripts\Publish-Release.ps1 -ReleaseLabel v1.0.0-dev
+powershell -NoProfile -File .\scripts\Publish-Release.ps1 -ReleaseLabel v1.0.1-dev
 ```
 
 Build output, local settings and diagnostics are ignored by Git. The script
