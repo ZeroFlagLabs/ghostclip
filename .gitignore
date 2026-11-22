@@ -1,0 +1,43 @@
+# GhostClip: local Windows/.NET build outputs and developer state.
+# All release ZIPs are generated into dist/ and attached separately to GitHub.
+
+bin/
+obj/
+dist/
+artifacts/
+TestResults/
+.vs/
+.idea/
+.vscode/
+
+# Local IDE and tool state
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+*.DotSettings.user
+*.binlog
+*.log
+*.pdb
+*.tmp
+*~
+~$*
+[Dd]esktop.ini
+Thumbs.db
+
+# Personal runtime data and diagnostic traces must never be published.
+settings.json
+last-text-focus-diagnostic.txt
+*.dmp
+*.stackdump
+
+# Signing keys, local credentials, and environment overrides.
+*.pfx
+*.p12
+.env
+.env.*
+!.env.example
+
+# Editor and OS files
+.DS_Store

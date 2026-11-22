@@ -1,0 +1,56 @@
+name: Windows build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Install .NET 10 SDK
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore and compile
+        shell: pwsh
+        run: |
+          dotnet restore GhostClip.csproj
+          dotnet build GhostClip.csproj -c Release --no-restore -warnaserror
+          if ($LASTEXITCODE -ne 0) { throw 'Build failed' }
+
+      - name: Guard the screenshot-only release scope
+        shell: pwsh
+        run: |
+          $textCopy = Get-ChildItem -File -Filter '*.cs' |
+            Select-String -Pattern 'CapturePrivateTextAsync|SelectedTextReader'
+          if ($textCopy) {
+            throw 'v1.0 must not contain experimental Ctrl+C text interception'
+          }
+
+      - name: Build portable Windows ZIP from committed source
+        shell: pwsh
+        run: |
+          ./scripts/Publish-Release.ps1 -ReleaseLabel "ci-${{ github.run_number }}"
+
+      # Artifacts remain on the CI run. This workflow does not publish a
+      # GitHub Release, create tags or install the resulting application.
+      - name: Upload build for manual inspection
+        uses: actions/upload-artifact@v6
+        with:
+          name: ghostclip-win-x64-${{ github.run_number }}
+          path: |
+            dist/*.zip
+            dist/*.sha256
+          if-no-files-found: error
+          retention-days: 14

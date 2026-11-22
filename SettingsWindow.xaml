@@ -1,0 +1,962 @@
+<Window x:Class="GhostClip.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Title="GhostClip Settings"
+        Icon="{StaticResource GhostClipWindowIcon}"
+        Width="560" Height="650"
+        MinWidth="530" MinHeight="620"
+        ResizeMode="CanResizeWithGrip"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="False"
+        FontFamily="Segoe UI"
+        Background="#202020">
+
+    <!-- Windows ties its native caption icon to the system menu.
+         Provide a branded, draggable caption without Windows caption buttons. -->
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="32"
+                            GlassFrameThickness="0"
+                            ResizeBorderThickness="6"
+                            CornerRadius="0"
+                            UseAeroCaptionButtons="False"/>
+    </shell:WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#F0F0F0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="#F0F0F0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,0,22,0"/>
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="#D6D6D6"/>
+            <Setter Property="Background" Value="#303030"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="TabBorder"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6,6,0,0"
+                                Margin="0,0,4,0" Padding="18,10">
+                            <ContentPresenter ContentSource="Header"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabBorder" Property="Background" Value="#404040"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="TabBorder" Property="Opacity" Value="0.87"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Background" Value="#383838"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="17,8"/>
+            <Setter Property="MinWidth" Value="74"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="ButtonBorder" CornerRadius="6"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.65"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Reuse the same vector icon already used by GhostClip itself. -->
+        <Border Grid.Row="0" Background="#202020"
+                BorderBrush="#303030" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Margin="12,0,0,0">
+                <Image Source="{StaticResource GhostClipWindowIcon}"
+                       Width="18" Height="18" Margin="0,0,9,0"
+                       AutomationProperties.Name="GhostClip ghost icon"/>
+                <TextBlock Text="GhostClip Settings"
+                           FontFamily="Segoe UI" FontSize="12.5"
+                           Foreground="#EEEEEE"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="22,18,22,18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="GhostClip Settings" FontSize="22"
+                       FontWeight="SemiBold" Foreground="White"/>
+            <TextBlock Text="Private clipboard and widget preferences"
+                       FontSize="12" Foreground="#AFAFAF"
+                       Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <TabControl Grid.Row="2" Background="#292929"
+                    Foreground="White" BorderBrush="#444444">
+            <TabItem Header="How to Use">
+                <ScrollViewer VerticalScrollBarVisibility="Visible"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="18,19,18,8" VerticalAlignment="Top">
+                    <TextBlock Text="Using GhostClip"
+                               Foreground="White" FontWeight="SemiBold"
+                               FontSize="17" Margin="0,0,0,17"/>
+
+                    <TextBlock Text="1. Enable Private Mode"
+                               Foreground="White" FontSize="13"
+                               FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBlock Text="Turn PRIVATE ON in the widget, or enable Start in Private Mode under General. Print Screen is intercepted only while Private Mode is ON."
+                               Foreground="#C9C9C9" FontSize="12"
+                               TextWrapping="Wrap" Margin="0,0,0,16"/>
+
+                    <TextBlock Text="2. Capture your screen"
+                               Foreground="White" FontSize="13"
+                               FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBlock Text="Press Print Screen (Fn + PrtSc on some keyboards). Drag to select a region, then release. Esc cancels the selection."
+                               Foreground="#C9C9C9" FontSize="12"
+                               TextWrapping="Wrap" Margin="0,0,0,16"/>
+
+                    <TextBlock Text="3. Paste normally"
+                               Foreground="White" FontSize="13"
+                               FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBlock Text="Press Ctrl + V in the destination application. The countdown begins automatically when GhostClip places the image on the clipboard."
+                               Foreground="#C9C9C9" FontSize="12"
+                               TextWrapping="Wrap" Margin="0,0,0,16"/>
+
+                    <TextBlock Text="4. Clear or finish"
+                               Foreground="White" FontSize="13"
+                               FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBlock Text="GhostClip clears its temporary item when its timer expires, if it still owns the clipboard. Click the countdown to clear sooner, or use × to exit."
+                               Foreground="#C9C9C9" FontSize="12"
+                               TextWrapping="Wrap" Margin="0,0,0,17"/>
+
+                    <Border Background="#353535" CornerRadius="6"
+                            Padding="11,9">
+                        <TextBlock Text="Privacy note: GhostClip does not save screenshot files or send clipboard content online. Other applications can still access an item while it is on the shared Windows clipboard, and anything you paste may be saved by the receiving application."
+                                   Foreground="#D8D8D8" FontSize="11"
+                                   TextWrapping="Wrap"/>
+                    </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="General">
+                <ScrollViewer VerticalScrollBarVisibility="Visible"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="18,20,18,18"
+                                VerticalAlignment="Top">
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Clipboard lifetime"
+                                           Foreground="White" FontWeight="SemiBold"
+                                           FontSize="13"/>
+                                <TextBlock Text="Automatically clear after 5–300 seconds"
+                                           Foreground="#AFAFAF" FontSize="11"
+                                           Margin="0,4,8,0"/>
+                            </StackPanel>
+                            <TextBox x:Name="TimeoutTextBox" Grid.Column="1"
+                                     Height="30"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" FontSize="13"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"/>
+                        </Grid>
+
+                        <CheckBox x:Name="StartPrivateCheckBox"
+                                  Content="Start in Private Mode"/>
+                        <CheckBox x:Name="LaunchWithWindowsCheckBox"
+                                  Content="Launch with Windows"
+                                  ToolTip="Start GhostClip automatically when signing in to this Windows account."/>
+                        <CheckBox x:Name="AlwaysOnTopCheckBox"
+                                  Content="Always on top"
+                                  ToolTip="Keep GhostClip above ordinary windows. Untick to allow other windows to cover the widget."/>
+
+                        <TextBlock Text="Widget position"
+                                   Foreground="White" FontSize="13"
+                                   FontWeight="SemiBold" Margin="0,5,0,9"/>
+                        <!-- Distribute the *space between* the radio labels
+                             equally, regardless of their different text widths.
+                             Keep Free-floating aligned with the 100-unit
+                             clipboard timeout entry on the right. -->
+                        <Grid Margin="0,0,0,9">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton x:Name="DockLeftRadioButton"
+                                         Grid.Column="0"
+                                         Margin="0"
+                                         GroupName="WidgetPosition"
+                                         Content="Taskbar left"/>
+                            <RadioButton x:Name="DockRightRadioButton"
+                                         Grid.Column="2"
+                                         Margin="0"
+                                         GroupName="WidgetPosition"
+                                         Content="Taskbar right"/>
+                            <RadioButton x:Name="FloatingRadioButton"
+                                         Grid.Column="4"
+                                         Margin="0"
+                                         GroupName="WidgetPosition"
+                                         Content="Free-floating"/>
+                        </Grid>
+
+                        <CheckBox x:Name="PositionLockedCheckBox"
+                                  Content="Lock widget position"/>
+                        <TextBlock Text="Changes take effect immediately. Drag the GhostClip title even while Settings is open; a docked widget becomes Free-floating as you move it."
+                                   Foreground="#B3B3B3" FontSize="11"
+                                   TextWrapping="Wrap" Margin="0,-5,0,9"/>
+
+                        <Button Content="Reset position"
+                                HorizontalAlignment="Left"
+                                Margin="0,0,0,16"
+                                ToolTip="Move GhostClip to the bottom centre of the primary display, above the taskbar, and unlock it."
+                                Click="ResetPositionButton_Click"/>
+
+                        <Border Background="#333333" CornerRadius="6"
+                                Padding="12,10">
+                            <StackPanel>
+                                <TextBlock Text="Screenshot shortcut"
+                                           Foreground="White" FontWeight="SemiBold"
+                                           FontSize="12"/>
+                                <TextBlock Text="Print Screen when Private Mode is ON"
+                                           Foreground="#C5C5C5" FontSize="12"
+                                           Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Appearance">
+                <ScrollViewer VerticalScrollBarVisibility="Visible"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="18,18,18,18">
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Widget scale"
+                                       Foreground="White" FontSize="14"
+                                       FontWeight="SemiBold"/>
+                            <TextBlock Grid.Column="1" TextAlignment="Right"
+                                       Foreground="#D0D0D0" FontSize="12"
+                                       Text="{Binding ElementName=WidgetScaleSlider, Path=Value, StringFormat={}{0:0}%}"/>
+                        </Grid>
+                        <Slider x:Name="WidgetScaleSlider"
+                                Minimum="70" Maximum="150" Value="100"
+                                TickFrequency="5" IsSnapToTickEnabled="True"
+                                ToolTip="Scales only the floating GhostClip bar, not Settings or screenshot selection."
+                                Margin="0,0,0,14"/>
+                        <Border Height="1" Background="#474747"
+                                Margin="0,0,0,18"/>
+
+                        <TextBlock Text="Identity" Foreground="White"
+                                   FontSize="14" FontWeight="SemiBold"
+                                   Margin="0,0,0,13"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <CheckBox x:Name="ShowGhostCheckBox"
+                                      Content="Show ghost icon"
+                                      Margin="0,0,25,12"/>
+                            <CheckBox x:Name="ShowTitleCheckBox"
+                                      Content="Show GhostClip title"
+                                      Margin="0,0,0,12"/>
+                        </StackPanel>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Ghost icon colour" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for GhostColour"
+                                    Tag="GhostColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="GhostColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="GhostColourTextBox" Grid.Column="2"
+                                     Text="#FFFFFF" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Title colour" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for TitleColour"
+                                    Tag="TitleColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="TitleColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="TitleColourTextBox" Grid.Column="2"
+                                     Text="#FFFFFF" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Border Height="1" Background="#474747"
+                                Margin="0,10,0,18"/>
+
+                        <TextBlock Text="Widget surface"
+                                   Foreground="White" FontSize="14"
+                                   FontWeight="SemiBold" Margin="0,0,0,13"/>
+
+                        <CheckBox x:Name="ShowWidgetBackgroundCheckBox"
+                                  Content="Show widget background"/>
+
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Background opacity"
+                                       Foreground="White" FontSize="13"/>
+                            <TextBlock Grid.Column="1" TextAlignment="Right"
+                                       Foreground="#D0D0D0" FontSize="12"
+                                       Text="{Binding ElementName=BackgroundOpacitySlider, Path=Value, StringFormat={}{0:0}%}"/>
+                        </Grid>
+                        <Slider x:Name="BackgroundOpacitySlider"
+                                Minimum="20" Maximum="100" Value="90"
+                                TickFrequency="5" IsSnapToTickEnabled="True"
+                                Margin="0,0,0,15"
+                                IsEnabled="{Binding ElementName=ShowWidgetBackgroundCheckBox, Path=IsChecked}"/>
+
+                        <Grid Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Background colour" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for BackgroundColour"
+                                    Tag="BackgroundColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="BackgroundColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="BackgroundColourTextBox" Grid.Column="2"
+                                     Text="#20242C" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+
+                        <CheckBox x:Name="ShowWidgetBorderCheckBox"
+                                  Content="Show widget border"/>
+
+                        <Grid Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Border colour" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for BorderColour"
+                                    Tag="BorderColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="BorderColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="BorderColourTextBox" Grid.Column="2"
+                                     Text="#454545" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Widget corner radius"
+                                       Foreground="White" FontSize="13"/>
+                            <TextBlock Grid.Column="1" TextAlignment="Right"
+                                       Foreground="#D0D0D0" FontSize="12"
+                                       Text="{Binding ElementName=WidgetCornerSlider, Path=Value, StringFormat={}{0:0}}"/>
+                        </Grid>
+                        <Slider x:Name="WidgetCornerSlider"
+                                Minimum="0" Maximum="16" Value="8"
+                                TickFrequency="1" IsSnapToTickEnabled="True"
+                                Margin="0,0,0,19"/>
+
+                        <Border Height="1" Background="#474747"
+                                Margin="0,0,0,18"/>
+                        <TextBlock Text="Buttons"
+                                   Foreground="White" FontSize="14"
+                                   FontWeight="SemiBold" Margin="0,0,0,14"/>
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="PRIVATE ON colour" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for PrivateColour"
+                                    Tag="PrivateColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="PrivateColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="PrivateColourTextBox" Grid.Column="2"
+                                     Text="#256A4A" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="PRIVATE ON text" Foreground="#C8CFD8"
+                                       VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose text colour"
+                                    AutomationProperties.Name="Choose colour for PrivateOnTextColour"
+                                    Tag="PrivateOnTextColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="PrivateOnTextColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="PrivateOnTextColourTextBox" Grid.Column="2"
+                                     Text="Auto" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="PRIVATE OFF colour" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for PrivateOffColour"
+                                    Tag="PrivateOffColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="PrivateOffColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="PrivateOffColourTextBox" Grid.Column="2"
+                                     Text="#353535" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="PRIVATE OFF text" Foreground="#C8CFD8"
+                                       VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose text colour"
+                                    AutomationProperties.Name="Choose colour for PrivateOffTextColour"
+                                    Tag="PrivateOffTextColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="PrivateOffTextColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="PrivateOffTextColourTextBox" Grid.Column="2"
+                                     Text="Auto" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="READY colour" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for ReadyColour"
+                                    Tag="ReadyColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="ReadyColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="ReadyColourTextBox" Grid.Column="2"
+                                     Text="#2E455B" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="READY text" Foreground="#C8CFD8"
+                                       VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose text colour"
+                                    AutomationProperties.Name="Choose colour for ReadyTextColour"
+                                    Tag="ReadyTextColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="ReadyTextColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="ReadyTextColourTextBox" Grid.Column="2"
+                                     Text="Auto" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Countdown colour" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for CountdownColour"
+                                    Tag="CountdownColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="CountdownColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="CountdownColourTextBox" Grid.Column="2"
+                                     Text="#774E26" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Countdown text" Foreground="#C8CFD8"
+                                       VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose text colour"
+                                    AutomationProperties.Name="Choose colour for CountdownTextColour"
+                                    Tag="CountdownTextColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="CountdownTextColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="CountdownTextColourTextBox" Grid.Column="2"
+                                     Text="Auto" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="OFF status colour" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for StatusOffColour"
+                                    Tag="StatusOffColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="StatusOffColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="StatusOffColourTextBox" Grid.Column="2"
+                                     Text="#303030" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,17">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="OFF status text" Foreground="#C8CFD8"
+                                       VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose text colour"
+                                    AutomationProperties.Name="Choose colour for StatusOffTextColour"
+                                    Tag="StatusOffTextColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="StatusOffTextColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="StatusOffTextColourTextBox" Grid.Column="2"
+                                     Text="Auto" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Button opacity"
+                                       Foreground="White" FontSize="13"/>
+                            <TextBlock Grid.Column="1" TextAlignment="Right"
+                                       Foreground="#D0D0D0" FontSize="12"
+                                       Text="{Binding ElementName=ButtonOpacitySlider, Path=Value, StringFormat={}{0:0}%}"/>
+                        </Grid>
+                        <Slider x:Name="ButtonOpacitySlider"
+                                Minimum="60" Maximum="100" Value="100"
+                                TickFrequency="5" IsSnapToTickEnabled="True"
+                                Margin="0,0,0,18"/>
+
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Button corner radius"
+                                       Foreground="White" FontSize="13"/>
+                            <TextBlock Grid.Column="1" TextAlignment="Right"
+                                       Foreground="#D0D0D0" FontSize="12"
+                                       Text="{Binding ElementName=ButtonCornerSlider, Path=Value, StringFormat={}{0:0}}"/>
+                        </Grid>
+                        <Slider x:Name="ButtonCornerSlider"
+                                Minimum="0" Maximum="12" Value="6"
+                                TickFrequency="1" IsSnapToTickEnabled="True"
+                                Margin="0,0,0,18"/>
+
+                        <Border Height="1" Background="#474747"
+                                Margin="0,5,0,18"/>
+                        <TextBlock Text="Settings and Exit buttons"
+                                   Foreground="White" FontSize="14"
+                                   FontWeight="SemiBold" Margin="0,0,0,14"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Settings background" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for SettingsButtonColour"
+                                    Tag="SettingsButtonColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="SettingsButtonColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="SettingsButtonColourTextBox" Grid.Column="2"
+                                     Text="#303030" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Settings icon" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for SettingsIconColour"
+                                    Tag="SettingsIconColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="SettingsIconColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="SettingsIconColourTextBox" Grid.Column="2"
+                                     Text="#FFFFFF" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Exit background" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for ExitButtonColour"
+                                    Tag="ExitButtonColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="ExitButtonColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="ExitButtonColourTextBox" Grid.Column="2"
+                                     Text="#443035" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="95"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Exit cross" Foreground="#E5E5E5"
+                                       VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Width="25" Height="27" Padding="2"
+                                    MinWidth="0" Margin="0"
+                                    Background="#353535"
+                                    ToolTip="Choose colour"
+                                    AutomationProperties.Name="Choose colour for ExitIconColour"
+                                    Tag="ExitIconColourTextBox"
+                                    Click="ColourSwatchButton_Click">
+                                <Border x:Name="ExitIconColourPreview"
+                                        Width="19" Height="19" BorderThickness="1"
+                                        BorderBrush="#808080" CornerRadius="3"/>
+                            </Button>
+                            <TextBox x:Name="ExitIconColourTextBox" Grid.Column="2"
+                                     Text="#FFFFFF" MaxLength="7" Height="27"
+                                     Background="#353535" Foreground="White"
+                                     BorderBrush="#606060" TextAlignment="Center"
+                                     VerticalContentAlignment="Center"/>
+                        </Grid>
+
+                        <Button Content="Reset appearance"
+                                HorizontalAlignment="Left"
+                                Margin="0,0,0,12"
+                                ToolTip="Restore the original GhostClip colours, opacity and corners without changing other preferences."
+                                Click="ResetAppearanceButton_Click"/>
+                        <TextBlock Text="Colour fields accept #RRGGBB. Text colours also accept Auto, which chooses contrasting black or white. Changes apply immediately."
+                                   Foreground="#B3B3B3" FontSize="11"
+                                   TextWrapping="Wrap" Margin="0,0,0,4"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="About">
+                <ScrollViewer VerticalScrollBarVisibility="Visible"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="20,19,20,19"
+                                VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
+                            <Image Source="{StaticResource GhostClipWindowIcon}"
+                                   Width="46" Height="46" Margin="0,0,13,0"/>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="GhostClip"
+                                           Foreground="White"
+                                           FontWeight="SemiBold" FontSize="19"/>
+                                <TextBlock Text="ZeroFlagLabs"
+                                           Foreground="#C4CAD2" FontSize="12"
+                                           Margin="0,3,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <TextBlock x:Name="AboutVersionText"
+                                   Foreground="#E6E6E6"
+                                   FontSize="13" FontWeight="SemiBold"
+                                   Margin="0,0,0,10"/>
+                        <TextBlock x:Name="AboutDescriptionText"
+                                   Foreground="#BFC4CB"
+                                   FontSize="12" TextWrapping="Wrap"
+                                   Margin="0,0,0,17"/>
+
+                        <Border Background="#454545" Height="1"
+                                Margin="0,0,0,17"/>
+
+                        <TextBlock Text="Updates"
+                                   Foreground="White"
+                                   FontWeight="SemiBold" FontSize="14"
+                                   Margin="0,0,0,12"/>
+                        <CheckBox x:Name="CheckUpdatesOnLaunchCheckBox"
+                                  Content="Check for updates when GhostClip starts"
+                                  Margin="0,0,0,12"/>
+
+                        <TextBlock x:Name="UpdateStatusText"
+                                   Foreground="#CDD5DD"
+                                   FontSize="12" TextWrapping="Wrap"
+                                   Margin="0,0,0,13"/>
+
+                        <WrapPanel Margin="0,0,0,17">
+                            <Button x:Name="CheckNowButton"
+                                    Content="Check now"
+                                    Width="162"
+                                    Margin="0,0,8,0"
+                                    Click="CheckNowButton_Click"/>
+                            <Button x:Name="OpenReleaseButton"
+                                    Content="View newer release"
+                                    Width="162"
+                                    IsEnabled="False"
+                                    Click="OpenReleaseButton_Click"/>
+                        </WrapPanel>
+
+                        <TextBlock Text="GhostClip checks only public GitHub release metadata. No clipboard or screenshot contents are sent, and updates are never installed automatically."
+                                   Foreground="#ACB4BE"
+                                   FontSize="11" TextWrapping="Wrap"
+                                   Margin="0,0,0,14"/>
+
+                        <Button Content="ZeroFlagLabs on GitHub"
+                                HorizontalAlignment="Left"
+                                Click="PublisherButton_Click"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="Close" IsDefault="True"
+                    Background="#315B84" Click="CloseButton_Click"/>
+        </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
